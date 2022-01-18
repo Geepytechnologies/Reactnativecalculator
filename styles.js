@@ -1,13 +1,16 @@
 import { StyleSheet } from "react-native";
+import { StatusBar} from 'react-native'
+
 
 export const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: 'black',
-      height: '100%'
+      height: '100%',
+      marginTop: StatusBar.currentHeight
     },
     appcontainer: {
-      height: '98%'
+      height: '100%'
     },
     numbtn: {
       padding: 8,
@@ -36,6 +39,12 @@ export const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center'
  },
+ minusbtntext: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 20,
+    textAlign: 'center'
+ },
   numbtntext: {
       color:'white',
       fontSize: 30
@@ -49,11 +58,27 @@ export const styles = StyleSheet.create({
     backgroundColor: 'white',
     marginTop: 10
 },
+  evabtn: {
+    padding: 8,
+    width: 90,
+    minHeight: 50,
+    alignItems: 'center',
+    borderRadius: 20,
+    //backgroundColor: '#721a42',
+    marginTop: 10
+},
+evabtntext: {
+    //color:'#d06805',
+    //color: '#721a42',
+    color: 'white',
+    fontSize: 40,
+    fontWeight: '700'
+},
 actionbtntext: {
     //color:'#d06805',
     color: '#721a42',
     fontSize: 40,
-    fontWeight: 700
+    fontWeight: '700'
 },
     previous: {
       fontSize: 25,
@@ -70,12 +95,11 @@ actionbtntext: {
     },
     output: {
       backgroundColor: 'black',
-      minHeight: '17%',
-      marginTop: 25,
+      height: '20%',
+      paddingTop: 25,
       display: 'flex',
       flexDirection: 'column',
-      alignItems: 'flex-end',
-      justifyContent: 'space-around',
+      justifyContent: 'flex-start',
       paddingRight: 10
     },
     calcbuttons: {
@@ -111,7 +135,7 @@ actionbtntext: {
       flex: 1,
       height: '100%',
       backgroundColor: '#202020',
-      justifyContent: 'center',
+      justifyContent: 'flex-start',
       alignItems: 'center',
       position: 'relative'
     }

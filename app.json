@@ -1,15 +1,11 @@
 {
   "expo": {
-    "name": "coolcalculator",
-    "slug": "coolcalculator",
+    "name": "signacalc",
+    "slug": "signacalc",
+    "description": "An easy to use calculator at your finger tip",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
+    "icon": "./assets/calclogoicon.png",
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -17,16 +13,19 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.signacode.signacalc"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/calclogoicon.png",
         "backgroundColor": "#FFFFFF"
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/calclogoicon.png"
     }
+    
+    
   }
 }

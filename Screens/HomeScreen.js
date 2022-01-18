@@ -1,10 +1,11 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react'
+import { StatusBar } from 'expo-status-bar';
 import { useReducer } from 'react'
 import { Text, TouchableWithoutFeedback, View, StyleSheet, TouchableOpacity, TextInput, Keyboard} from 'react-native';
 import { styles } from '../styles';
 import {percentage,sin,Asin,Cos,Acos,Tan,Atan,Pi,Sqrt,Cuberoot,Square,Cube,Cubefour} from '../data/myfunctions'
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { NavigationContainer } from '@react-navigation/native';
+//import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 
 
 {/* my reducer actions */}
@@ -45,12 +46,25 @@ function reducer(state, {type, payload}){
              current: payload.digit,
              overwrite: false
            }
+
          }
          if(payload.digit === "0" && state.current === "0"){
           return state
          } 
          if(payload.digit === "." && state.current.includes(".")){
            return state
+          }
+         if(payload.digit === "-" && state.current !== null && state.current ){
+           return {
+             ...state,
+             current: "-" + state.current
+           }
+          }
+          
+         if(state.current == null && payload.digit === "-" ){
+           return {
+             current: payload.digit
+           }
           }
          return {
            ...state,
@@ -67,6 +81,7 @@ function reducer(state, {type, payload}){
                 operation: null
               }
            }
+           
 
            if(state.previous == null) {
              return {
@@ -130,13 +145,6 @@ function reducer(state, {type, payload}){
             }
           }
            
-           
-          //let len = state.current.length
-          //let x = position
-          //x = false;
-             
-    
-
           case ACTIONS.DELETE_INPUT: 
           //x = false;
              if(state.overwrite){
@@ -148,8 +156,6 @@ function reducer(state, {type, payload}){
              }
              if(state.current == null) return state
              if(x >= 0 && x < len){
-               //let x = position;
-               //console.log(x)
                return {
                  ...state,
                 current: state.current.slice(0, `${x}`- len -1) + state.current.substr(`${x}`- len)
@@ -157,8 +163,6 @@ function reducer(state, {type, payload}){
                }
              }
              if(x >= len){
-               //let x = position;
-               //console.log(x)
                return {
                  ...state,
                 current: state.current.slice(0, `${x}`- len -1)
@@ -166,16 +170,7 @@ function reducer(state, {type, payload}){
                }
              }
     
-            
-             /*if(state.current.length === 1){
-               return{
-                 ...state,
-                 current: null
-               }
-              }return {
-                ...state,
-                current: state.current.slice(0,-1)
-              }*/
+           
 
              
           case ACTIONS.CLEAR:
@@ -192,6 +187,11 @@ function reducer(state, {type, payload}){
                current: evaluate(state)
              }
              case ACTIONS.PERCENTAGE:
+              if(state.current == null || state.previous == null){
+                return{
+                  current: ""
+                }
+              }
               return {
                 ...state,
                 current: percentage(state.current),
@@ -200,6 +200,11 @@ function reducer(state, {type, payload}){
                 previous: null
               }
              case ACTIONS.SIN:
+              if(state.current == null || state.previous == null){
+                return{
+                  current: ""
+                }
+              }
               return {
                 ...state,
                 current: sin(state.current),
@@ -208,6 +213,11 @@ function reducer(state, {type, payload}){
                 previous: null
               }
              case ACTIONS.ASIN:
+              if(state.current == null || state.previous == null){
+                return{
+                  current: ""
+                }
+              }
               return {
                 ...state,
                 current: Asin(state.current),
@@ -218,12 +228,16 @@ function reducer(state, {type, payload}){
              case ACTIONS.PI:
               return {
                 ...state,
-                current: Pi(state.current),
+                current: Pi(1),
                 overwrite: true,
-                operation: null,
-                previous: null
+                previous: state.previous
               }
              case ACTIONS.COS:
+              if(state.current == null || state.previous == null){
+                return{
+                  current: ""
+                }
+              }
               return {
                 ...state,
                 current: Cos(state.current),
@@ -232,6 +246,11 @@ function reducer(state, {type, payload}){
                 previous: null
               }
              case ACTIONS.ACOS:
+              if(state.current == null || state.previous == null){
+                return{
+                  current: ""
+                }
+              }
               return {
                 ...state,
                 current: Acos(state.current),
@@ -240,6 +259,11 @@ function reducer(state, {type, payload}){
                 previous: null
               }
              case ACTIONS.TAN:
+              if(state.current == null || state.previous == null){
+                return{
+                  current: ""
+                }
+              }
               return {
                 ...state,
                 current: Tan(state.current),
@@ -248,6 +272,11 @@ function reducer(state, {type, payload}){
                 previous: null
               }
              case ACTIONS.ATAN:
+              if(state.current == null || state.previous == null){
+                return{
+                  current: ""
+                }
+              }
               return {
                 ...state,
                 current: Atan(state.current),
@@ -256,6 +285,11 @@ function reducer(state, {type, payload}){
                 previous: null
               }
              case ACTIONS.SQRT:
+              if(state.current == null || state.previous == null){
+                return{
+                  current: ""
+                }
+              }
               return {
                 ...state,
                 current: Sqrt(state.current),
@@ -264,6 +298,11 @@ function reducer(state, {type, payload}){
                 previous: null
               }
              case ACTIONS.SQUARE:
+              if(state.current == null || state.previous == null){
+                return{
+                  current: ""
+                }
+              }
               return {
                 ...state,
                 current: Square(state.current),
@@ -272,6 +311,11 @@ function reducer(state, {type, payload}){
                 previous: null
               }
              case ACTIONS.SQUARECUBE:
+              if(state.current == null || state.previous == null){
+                return{
+                  current: ""
+                }
+              }
               return {
                 ...state,
                 current: Cube(state.current),
@@ -280,6 +324,11 @@ function reducer(state, {type, payload}){
                 previous: null
               }
              case ACTIONS.SQUAREFOUR:
+              if(state.current == null || state.previous == null){
+                return{
+                  current: ""
+                }
+              }
               return {
                 ...state,
                 current: Cubefour(state.current),
@@ -288,6 +337,11 @@ function reducer(state, {type, payload}){
                 previous: null
               }
              case ACTIONS.CUBEROOT:
+              if(state.current == null || state.previous == null){
+                return{
+                  current: ""
+                }
+              }
               return {
                 ...state,
                 current: Cuberoot(state.current),
@@ -310,7 +364,7 @@ function evaluate({previous, current, operation}){
     case "+":
       computation = prev + curr
       break
-     case "-":
+     case "−":
       computation = prev - curr
       break
      case "÷":
@@ -321,15 +375,15 @@ function evaluate({previous, current, operation}){
        break
        default:
   }
-  return computation.toString()
+  return computation.toLocaleString()
 
 }
 
 function EvaluateButton({dispatch}) {
   return (
       <TouchableOpacity onPress={() => dispatch({type: ACTIONS.EVALUATE})} activeOpacity={0.8}>
-        <View style={styles.numbtn}>
-           <Text style={styles.numbtntext}>=</Text>
+        <View style={styles.evabtn}>
+           <Text style={styles.evabtntext}>=</Text>
         </View>
       </TouchableOpacity>
   )
@@ -356,6 +410,16 @@ function ActionButton({dispatch, operation}) {
           </TouchableOpacity>
   )
 }
+
+function Minus({dispatch, digit}){
+  return (
+  <TouchableOpacity onPress={() => dispatch({type: ACTIONS.ADD_DIGIT, payload: {digit}})} activeOpacity={0.8}>
+      <View style={styles.functionbtn} >
+        <Text style={styles.minusbtntext}>{digit}</Text>
+      </View>
+  </TouchableOpacity>
+  )}
+
 function FunctionButton({dispatch}) {
   return (
      <View style={{height: '100%',justifyContent: 'space-between', width: '100%'}}>
@@ -415,11 +479,12 @@ function FunctionButton({dispatch}) {
              </TouchableOpacity>
           </View>
          <View style={{display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'space-around'}}>
-             <TouchableOpacity onPress={() => dispatch({type: ACTIONS.SQUAREFOUR})} activeOpacity={0.8}>
+             {/*<TouchableOpacity onPress={() => dispatch({type: ACTIONS.ADD_DIGIT, payload: {digit}})} activeOpacity={0.8}>
                 <View style={styles.functionbtn} >
                    <Text style={styles.functionbtntext}><>x&#8308;</></Text>
                 </View>
-             </TouchableOpacity>
+             </TouchableOpacity>*/}
+             <Minus digit={'-'} dispatch={dispatch}/>
              <TouchableOpacity onPress={() => dispatch({type: ACTIONS.ASIN})} activeOpacity={0.8}>
                 <View style={styles.functionbtn} >
                    <Text style={styles.functionbtntext}><>sin&#8315;&#185;</></Text>
@@ -447,31 +512,33 @@ function FunctionButton({dispatch}) {
   )
 }
 
-export const pos = (event) => {
-  const place = event.nativeEvent.selection;
-  position = place.end
-   console.log(position)
-}
-function showFormulars(navigation){
-   navigation.navigate('formular')
-}
 
-export default function App() {
-  
+
+
+export default function HomeScreen({navigation}) {
+  function move(){
+    navigation.navigate('formulars')
+  }
   const [{previous, current, operation},dispatch]  = useReducer(reducer, {})
   return (
       <View style={styles.container}>
+        <StatusBar 
+                style='light'
+                animated={true}
+                translucent={true}
+                barStyle='white' backgroundColor='#721a42'
+        />
         <View style={styles.appcontainer}>
           <View style={styles.output}>
-            <TouchableOpacity onPress={showFormulars}>
-              <View style={{backgroundColor: 'red', borderRadius: 20, padding: 6}}>
-                <Text style={{color: 'white', fontSize: 18}}>formulas</Text>
-                <FontAwesomeIcon icon='angle-double-right' />
+            <TouchableWithoutFeedback onPress={move}>
+              <View style={{alignItems: 'flex-start', backgroundColor: '#721a42',marginLeft:6, width: '25%', borderRadius: 20, alignItems: 'center'}}>
+                <Text style={{color: 'white', paddingVertical: 5, paddingHorizontal: 5, fontSize: 16}}>Formulars</Text>
               </View>
-            </TouchableOpacity>
-            {/*<Text style={styles.previous}>{previous} {operation}</Text>*/}
-                    <Text style={styles.previous}>{previous} {operation}</Text>
-                    <Text style={styles.current}>{current}</Text>
+            </TouchableWithoutFeedback>
+            <View style={{alignItems: 'flex-end'}}>
+              <Text style={styles.previous}>{previous} {operation}</Text>
+              <Text style={styles.current}>{current}</Text>
+            </View>
           </View>
           <TouchableWithoutFeedback>
             <View style={styles.calcbuttons}>
@@ -482,39 +549,38 @@ export default function App() {
           </TouchableWithoutFeedback>
           <View style={styles.numbers}>
             <View style={styles.calcbox1}>
-              <View style={{justifyContent: 'space-between', height: '90%'}}>
-              <View style={{display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'space-around'}}>
-                <NumButton digit={7} dispatch={dispatch}/>
-                <NumButton digit={8} dispatch={dispatch}/>
-                <NumButton digit={9} dispatch={dispatch}/>
-              </View>
-              <View style={{display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'space-around'}}>
-                <NumButton digit={4} dispatch={dispatch}/>
-                <NumButton digit={5} dispatch={dispatch}/>
-                <NumButton digit={6} dispatch={dispatch}/>
-              </View>
-              <View style={{display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'space-around'}}>
-                <NumButton digit={1} dispatch={dispatch}/>
-                <NumButton digit={2} dispatch={dispatch}/>
-                <NumButton digit={3} dispatch={dispatch}/>
-              </View>
-              <View style={{display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'space-around'}}>
-                <NumButton digit={'.'} dispatch={dispatch}/>
-                <NumButton digit={0} dispatch={dispatch}/>
-                <EvaluateButton dispatch={dispatch}/>
-              </View>
+              <View style={{justifyContent: 'space-between', height: '100%'}}>
+                <View style={{display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'space-around'}}>
+                  <NumButton digit={7} dispatch={dispatch}/>
+                  <NumButton digit={8} dispatch={dispatch}/>
+                  <NumButton digit={9} dispatch={dispatch}/>
+                </View>
+                <View style={{display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'space-around'}}>
+                  <NumButton digit={4} dispatch={dispatch}/>
+                  <NumButton digit={5} dispatch={dispatch}/>
+                  <NumButton digit={6} dispatch={dispatch}/>
+                </View>
+                <View style={{display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'space-around'}}>
+                  <NumButton digit={1} dispatch={dispatch}/>
+                  <NumButton digit={2} dispatch={dispatch}/>
+                  <NumButton digit={3} dispatch={dispatch}/>
+                </View>
+                <View style={{display: 'flex', flexDirection: 'row', width: '100%', justifyContent: 'space-around', marginBottom: 15}}>
+                  <NumButton digit={'.'} dispatch={dispatch}/>
+                  <NumButton digit={0} dispatch={dispatch}/>
+                  <EvaluateButton dispatch={dispatch}/>
+                </View>
               </View>
             </View>
             <View style={styles.calcbox2}>
-              <View style={{justifyContent: 'space-between', height: '100%'}}>
-               <ActionButton operation='-' dispatch={dispatch}/>
+              <View style={{justifyContent: 'space-between', height: '97%'}}>
+               <ActionButton operation='−' dispatch={dispatch}/>
                <ActionButton operation= '+' dispatch={dispatch}/>
                <ActionButton operation='&#247;' dispatch={dispatch}/>
                <ActionButton operation='&#215;' dispatch={dispatch}/>
               </View>
             </View>
           </View>
-          <StatusBar style='light' />
         </View>
       </View>
    
